@@ -1,11 +1,18 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  script: |
-    docker build -t asia-east1-docker.pkg.dev/$PROJECT_ID/test-web-app-frontend/test-web-app-frontend:tag1 .
-  automapSubstitutions: true
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}']
+  entrypoint: 'gcloud'
+  args: ['run', 'deploy', '${_IMAGE_NAME}', '--allow-unauthenticated', '--platform', 'managed', '--image', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}', '--region', '${_DEPLOY_REGION}', '--port', '${_DEPLOY_PORT}', '--timeout', '600']
+substitutions:
+  _IMAGE_NAME: 'test-web-app-frontend'
+  _DEPLOY_REGION: 'asia-east1'
+  _DEPLOY_PORT: '3000'
+#   _DEPLOY_ENV_VARS: 'NODE_ENV=production,SERVICE_NAME=cr-connect-services,APP_ENV=production'
+#   _SECRETS: '/etc/stripe-secret/stripe-key.json=stripe-key:latest,/etc/secrets/auth0.pem=auth0cert:latest'
 images:
-- 'asia-east1-docker.pkg.dev/$PROJECT_ID/test-web-app-frontend/test-web-app-frontend:tag1'
-
+  - 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}'
 
 # steps:
 #   - name: 'gcr.io/cloud-builders/docker'
