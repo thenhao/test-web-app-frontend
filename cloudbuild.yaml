@@ -1,10 +1,10 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   script: |
-    docker build -t us-west2-docker.pkg.dev/$PROJECT_ID/test-web-app-frontend/test-web-app-frontend:tag1 .
+    docker build -t asia-southeast1-docker.pkg.dev/$PROJECT_ID/test-web-app-frontend/test-web-app-frontend:tag1 .
   automapSubstitutions: true
 images:
-- 'us-west2-docker.pkg.dev/$PROJECT_ID/test-web-app-frontend/test-web-app-frontend:tag1'
+- 'asia-southeast1-docker.pkg.dev/$PROJECT_ID/test-web-app-frontend/test-web-app-frontend:tag1'
 
 
 # steps:
