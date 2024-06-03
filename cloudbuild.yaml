@@ -9,7 +9,7 @@ steps:
 substitutions:
   _IMAGE_NAME: 'test-web-app-frontend'
   _DEPLOY_REGION: 'asia-east1'
-  _DEPLOY_PORT: '3000'
+  _DEPLOY_PORT: '5000'
 images:
   - 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}'
 # steps:
