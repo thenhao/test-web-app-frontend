@@ -5,7 +5,8 @@ import ProductComponent from '../components/ProductComponent';
 import ModalComponent from '../components/ModalComponent';
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:7777/",
+    // baseURL: "http://localhost:7777/",
+    baseURL: "",
     // timeout: 5000,
     headers: {'X-Custom-Header': 'foobar'}
   });
