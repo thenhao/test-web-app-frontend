@@ -4,10 +4,10 @@ import axios from 'axios';
 import ProductComponent from '../components/ProductComponent';
 import ModalComponent from '../components/ModalComponent';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const axiosInstance = axios.create({
-    // baseURL: "http://localhost:7777/",
-    baseURL: "",
-    // timeout: 5000,
+    baseURL: BACKEND_URL,
     headers: {'X-Custom-Header': 'foobar'}
   });
 

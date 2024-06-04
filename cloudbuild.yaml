@@ -5,11 +5,12 @@ steps:
   args: ['push', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
-  args: ['run', 'deploy', '${_IMAGE_NAME}', '--allow-unauthenticated', '--platform', 'managed', '--image', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}', '--region', '${_DEPLOY_REGION}', '--port', '${_DEPLOY_PORT}', '--timeout', '600']
+  args: ['run', 'deploy', '${_IMAGE_NAME}','--update-secrets=REACT_APP_BACKEND_URL=${_BACKEND_URL}:latest, '--allow-unauthenticated', '--platform', 'managed', '--image', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}', '--region', '${_DEPLOY_REGION}', '--port', '${_DEPLOY_PORT}', '--timeout', '600']
 substitutions:
   _IMAGE_NAME: 'test-web-app-frontend'
   _DEPLOY_REGION: 'asia-east1'
   _DEPLOY_PORT: '5000'
+  _BACKEND_URL: 'REACT_APP_BACKEND_URL'
 images:
   - 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}'
 # steps:
@@ -29,3 +30,33 @@ images:
 # images:
 #   - 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}'
 #'--set-secrets', '${_SECRETS}', 
+
+
+
+# steps:
+#   - name: 'gcr.io/cloud-builders/gcloud'
+#     entrypoint: 'bash'
+#     args: [ '-c', "gcloud secrets versions access latest --secret==connect-webapp-auth0 --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}', '.']
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: ['push', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}']
+#   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#     entrypoint: 'gcloud'
+#     args: ['run', 'deploy', '${_IMAGE_NAME}', '--update-secrets=AUTH0_SECRET=${_AUTH0_SECRET}:latest,AUTH0_BASE_URL=${_AUTH0_BASE_URL}:latest,AUTH0_ISSUER_BASE_URL=${_AUTH0_ISSUER_BASE_URL}:latest,AUTH0_CLIENT_ID=${_AUTH0_CLIENT_ID}:latest,AUTH0_CLIENT_SECRET=${_AUTH0_CLIENT_SECRET}:latest,AUTH0_AUDIENCE=${_AUTH0_AUDIENCE}:latest',  '--allow-unauthenticated', '--platform', 'managed', '--image', 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}', '--region', '${_DEPLOY_REGION}', '--port', '${_DEPLOY_PORT}', '--set-env-vars', '${_DEPLOY_ENV_VARS}']
+#   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#     entrypoint: 'gcloud'
+#     args: ['run', 'services', 'update-traffic', '${_IMAGE_NAME}', '--to-latest', '--region', '${_DEPLOY_REGION}']
+# substitutions:
+#   _AUTH0_SECRET: 'connect-webapp-auth0-env-secret'
+#   _AUTH0_BASE_URL: 'connect-webapp-auth0-env-base-url'
+#   _AUTH0_ISSUER_BASE_URL: 'connect-webapp-auth0-env-issuer-base-url'
+#   _AUTH0_CLIENT_ID: 'connect-webapp-auth0-env-client-id'
+#   _AUTH0_CLIENT_SECRET: 'connect-webapp-auth0-env-client-secret'
+#   _AUTH0_AUDIENCE: 'connect-webapp-auth0-env-audience'
+#   _IMAGE_NAME: 'digiheal-connect-webapp'
+#   _DEPLOY_REGION: 'asia-northeast1'
+#   _DEPLOY_PORT: '3000'
+#   _DEPLOY_ENV_VARS: 'NODE_ENV=production'
+# images:
+#   - 'gcr.io/$PROJECT_ID/${_IMAGE_NAME}'
