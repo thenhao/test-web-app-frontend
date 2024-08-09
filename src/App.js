@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+import {Routes, Route} from "react-router-dom";
 import Product from './pages/Product';
+import ProductInfo from './pages/ProductInfo';
 
 function App() {
   return (
@@ -19,7 +21,12 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <Product/>
+      <Routes>
+        <Route path='/'>
+          <Route index element={<Product/>}></Route>
+          <Route path=':productName' element={<ProductInfo/>}/>
+        </Route>
+      </Routes>
     </div>
   );
 }
